@@ -128,6 +128,43 @@ static uint64_t _get_db_index(mysql_conn_t *mysql_conn,
 	return db_index;
 }
 
+
+/* Used in job functions for getting the attempt index based off the
+ * submit time and job.  0 is returned if none is found
+ */
+static uint64_t _get_attempt_id(mysql_conn_t *mysql_conn,
+			      time_t submit, uint32_t jobid)
+{
+	MYSQL_RES *result = NULL;
+	MYSQL_ROW row;
+	uint64_t attempt_id = 0;
+	char *query = xstrdup_printf("select job_attempt_id from \"%s_%s\" where "
+				     "time_submit=%d and id_job=%u",
+				     mysql_conn->cluster_name, job_table,
+				     (int)submit, jobid);
+
+	if (!(result = mysql_db_query_ret(mysql_conn, query, 0))) {
+		xfree(query);
+		return 0;
+	}
+	xfree(query);
+
+	row = mysql_fetch_row(result);
+	if (!row) {
+		mysql_free_result(result);
+		debug4("We can't get a attempt_id for this combo, "
+		       "time_submit=%d and id_job=%u.  "
+		       "We must not have heard about the start yet, "
+		       "no big deal, we will get one right after this.",
+		       (int)submit, jobid);
+		return 0;
+	}
+	attempt_id = slurm_atoull(row[0]);
+	mysql_free_result(result);
+
+	return attempt_id;
+}
+
 static char *_get_user_from_associd(mysql_conn_t *mysql_conn,
 				    char *cluster, uint32_t associd)
 {

@@ -374,6 +374,7 @@ static void _pack_job_complete_msg(dbd_job_comp_msg_t *msg,
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		packstr(msg->admin_comment, buffer);
 		pack32(msg->assoc_id, buffer);
+		pack64(msg->attempt_id, buffer);
 		packstr(msg->comment, buffer);
 		pack64(msg->db_index, buffer);
 		pack32(msg->derived_ec, buffer);
@@ -401,6 +402,7 @@ static int _unpack_job_complete_msg(dbd_job_comp_msg_t **msg,
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		safe_unpackstr(&msg_ptr->admin_comment, buffer);
 		safe_unpack32(&msg_ptr->assoc_id, buffer);
+		safe_unpack64(msg->attempt_id, buffer);
 		safe_unpackstr(&msg_ptr->comment, buffer);
 		safe_unpack64(&msg_ptr->db_index, buffer);
 		safe_unpack32(&msg_ptr->derived_ec, buffer);
@@ -456,6 +458,7 @@ static void _pack_job_start_msg(void *in, uint16_t rpc_version, buf_t *buffer)
 		packstr(msg->array_task_str, buffer);
 		pack32(msg->array_task_pending, buffer);
 		pack32(msg->assoc_id, buffer);
+		pack64(msg->attempt_id, buffer);
 		packstr(msg->constraints, buffer);
 		packstr(msg->container, buffer);
 		pack32(msg->db_flags, buffer);
@@ -511,6 +514,7 @@ static int _unpack_job_start_msg(void **msg, uint16_t rpc_version,
 		safe_unpackstr(&msg_ptr->array_task_str, buffer);
 		safe_unpack32(&msg_ptr->array_task_pending, buffer);
 		safe_unpack32(&msg_ptr->assoc_id, buffer);
+		safe_unpack64(msg->attempt_id, buffer);
 		safe_unpackstr(&msg_ptr->constraints, buffer);
 		safe_unpackstr(&msg_ptr->container, buffer);
 		safe_unpack32(&msg_ptr->db_flags, buffer);
@@ -602,6 +606,7 @@ static void _pack_job_suspend_msg(dbd_job_suspend_msg_t *msg,
 {
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		pack32(msg->assoc_id, buffer);
+		pack64(msg->attempt_id, buffer);
 		pack64(msg->db_index, buffer);
 		pack32(msg->job_id, buffer);
 		pack32(msg->job_state, buffer);
@@ -618,6 +623,7 @@ static int _unpack_job_suspend_msg(dbd_job_suspend_msg_t **msg,
 
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		safe_unpack32(&msg_ptr->assoc_id, buffer);
+		safe_unpack64(msg->attempt_id, buffer);
 		safe_unpack64(&msg_ptr->db_index, buffer);
 		safe_unpack32(&msg_ptr->job_id, buffer);
 		safe_unpack32(&msg_ptr->job_state, buffer);
@@ -898,6 +904,7 @@ static void _pack_step_complete_msg(dbd_step_comp_msg_t *msg,
 {
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		pack32(msg->assoc_id, buffer);
+		pack64(msg->attempt_id, buffer);
 		pack64(msg->db_index, buffer);
 		pack_time(msg->end_time, buffer);
 		pack32(msg->exit_code, buffer);
@@ -921,6 +928,7 @@ static int _unpack_step_complete_msg(dbd_step_comp_msg_t **msg,
 
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		safe_unpack32(&msg_ptr->assoc_id, buffer);
+		safe_unpack64(msg->attempt_id, buffer);
 		safe_unpack64(&msg_ptr->db_index, buffer);
 		safe_unpack_time(&msg_ptr->end_time, buffer);
 		safe_unpack32(&msg_ptr->exit_code, buffer);
@@ -972,6 +980,7 @@ static void _pack_step_start_msg(dbd_step_start_msg_t *msg,
 
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		pack32(msg->assoc_id, buffer);
+		pack64(msg->attempt_id, buffer);
 		pack64(msg->db_index, buffer);
 		packstr(msg->container, buffer);
 		packstr(msg->name, buffer);
@@ -1001,6 +1010,7 @@ static int _unpack_step_start_msg(dbd_step_start_msg_t **msg,
 
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		safe_unpack32(&msg_ptr->assoc_id, buffer);
+		safe_unpack64(msg->attempt_id, buffer);
 		safe_unpack64(&msg_ptr->db_index, buffer);
 		safe_unpackstr(&msg_ptr->container, buffer);
 		safe_unpackstr(&msg_ptr->name, buffer);
@@ -1068,6 +1078,7 @@ extern void slurmdbd_pack_id_rc_msg(void *in, uint16_t rpc_version,
 
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		pack32(msg->job_id, buffer);
+		pack64(msg->attempt_id, buffer);
 		pack64(msg->db_index, buffer);
 		pack64(msg->flags, buffer);
 		pack32(msg->return_code, buffer);
@@ -1083,6 +1094,7 @@ extern int slurmdbd_unpack_id_rc_msg(void **msg, uint16_t rpc_version,
 
 	if (rpc_version >= SLURM_MIN_PROTOCOL_VERSION) {
 		safe_unpack32(&msg_ptr->job_id, buffer);
+		safe_unpack64(msg->attempt_id, buffer);
 		safe_unpack64(&msg_ptr->db_index, buffer);
 		safe_unpack64(&msg_ptr->flags, buffer);
 		safe_unpack32(&msg_ptr->return_code, buffer);

@@ -4330,6 +4330,7 @@ extern void slurmdb_pack_job_rec(void *object, uint16_t protocol_version,
 		packstr(job->array_task_str, buffer);
 
 		pack32(job->associd, buffer);
+		pack64(job->attempt_id, buffer);
 		packstr(job->blockid, buffer);
 		packstr(job->cluster, buffer);
 		packstr(job->constraints, buffer);
@@ -4415,6 +4416,7 @@ extern void slurmdb_pack_job_rec(void *object, uint16_t protocol_version,
 		packstr(job->array_task_str, buffer);
 
 		pack32(job->associd, buffer);
+		pack64(job->attempt_id, buffer);
 		packstr(job->blockid, buffer);
 		packstr(job->cluster, buffer);
 		packstr(job->constraints, buffer);
@@ -4518,6 +4520,7 @@ extern int slurmdb_unpack_job_rec(void **job, uint16_t protocol_version,
 		safe_unpackstr_xmalloc(&job_ptr->array_task_str,
 				       &uint32_tmp, buffer);
 		safe_unpack32(&job_ptr->associd, buffer);
+		safe_unpack64(job->attempt_id, buffer);
 		safe_unpackstr_xmalloc(&job_ptr->blockid, &uint32_tmp, buffer);
 		safe_unpackstr_xmalloc(&job_ptr->cluster, &uint32_tmp, buffer);
 		safe_unpackstr_xmalloc(&job_ptr->constraints,
@@ -4616,6 +4619,7 @@ extern int slurmdb_unpack_job_rec(void **job, uint16_t protocol_version,
 		safe_unpackstr_xmalloc(&job_ptr->array_task_str,
 				       &uint32_tmp, buffer);
 		safe_unpack32(&job_ptr->associd, buffer);
+		safe_unpack64(job->attempt_id, buffer);
 		safe_unpackstr_xmalloc(&job_ptr->blockid, &uint32_tmp, buffer);
 		safe_unpackstr_xmalloc(&job_ptr->cluster, &uint32_tmp, buffer);
 		safe_unpackstr_xmalloc(&job_ptr->constraints,

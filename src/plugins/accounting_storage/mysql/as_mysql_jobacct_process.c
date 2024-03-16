@@ -118,6 +118,7 @@ enum {
 	JOB_REQ_ADMIN_COMMENT,
 	JOB_REQ_ARRAY_MAX,
 	JOB_REQ_ARRAY_STR,
+	JOB_REQ_ATTEMPT_ID,
 	JOB_REQ_CONSTRAINTS,
 	JOB_REQ_CONTAINER,
 	JOB_REQ_REQ_CPUS,
@@ -605,6 +606,7 @@ static int _cluster_get_jobs(mysql_conn_t *mysql_conn,
 
 	while ((row = mysql_fetch_row(result))) {
 		char *db_inx_char = row[JOB_REQ_DB_INX];
+		char *attempt_id_char = row[JOB_REQ_ATTEMPT_ID]
 		bool job_ended = 0;
 		int start = slurm_atoul(row[JOB_REQ_START]);
 		int arrayjob = slurm_atoul(row[JOB_REQ_ARRAYJOBID]);
@@ -826,6 +828,7 @@ static int _cluster_get_jobs(mysql_conn_t *mysql_conn,
 		if ((int)job->elapsed < 0)
 			job->elapsed = 0;
 
+		job->attempt_id = slurm_atoull(attempt_id_char);
 		job->db_index = slurm_atoull(db_inx_char);
 		job->jobid = curr_id;
 		job->jobname = xstrdup(row[JOB_REQ_NAME]);

@@ -719,6 +719,21 @@ extern void print_fields(type_t type, void *object)
 					     &tmp_uint64,
 					     (curr_inx == field_count));
 			break;
+		case PRINT_ATTEMPT_ID:
+			switch(type) {
+			case JOB:
+				tmp_uint64 = job->attempt_id;
+				break;
+			case JOBSTEP:
+				tmp_uint64 = step->job_ptr->attempt_id;
+				break;
+			default:
+				break;
+			}
+			field->print_routine(field,
+					     &tmp_uint64,
+					     (curr_inx == field_count));
+			break;
 		case PRINT_DERIVED_EC:
 			tmp_int = tmp_int2 = 0;
 			switch (type) {

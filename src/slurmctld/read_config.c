@@ -2593,6 +2593,8 @@ static void _acct_restore_active_jobs(void)
 		if (IS_JOB_SUSPENDED(job_ptr) || IS_JOB_RUNNING(job_ptr)) {
 			if (job_ptr->db_index != NO_VAL64)
 				job_ptr->db_index = 0;
+			if (job_ptr->attempt_id != NO_VAL64)
+				job_ptr->attempt_id = 1;
 			step_iterator = list_iterator_create(
 				job_ptr->step_list);
 			while ((step_ptr = list_next(step_iterator))) {

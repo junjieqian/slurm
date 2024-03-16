@@ -4797,6 +4797,7 @@ static const parser_t PARSER_ARRAY(JOB)[] = {
 	add_parse(UINT32, array_max_tasks, "array/limits/max/running/tasks", NULL),
 	add_parse(UINT32_NO_VAL, array_task_id, "array/task_id", NULL),
 	add_parse(STRING, array_task_str, "array/task", NULL),
+	add_parse(UINT64, attempt_id, "attempt_id", NULL),
 	add_complex_parser(slurmdb_job_rec_t, JOB_ASSOC_ID, false, "association", NULL),
 	add_parse(STRING, blockid, "block", NULL),
 	add_parse(STRING, cluster, "cluster", NULL),

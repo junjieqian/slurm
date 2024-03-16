@@ -1584,6 +1584,7 @@ static int _job_complete(slurmdbd_conn_t *slurmdbd_conn, persist_msg_t *msg,
 
 	job.admin_comment = job_comp_msg->admin_comment;
 	job.assoc_id = job_comp_msg->assoc_id;
+	job.attempt_id = job_comp_msg->attempt_id;
 	job.comment = job_comp_msg->comment;
 	if (job_comp_msg->db_index != NO_VAL64)
 		job.db_index = job_comp_msg->db_index;
@@ -1736,6 +1737,7 @@ static int _job_suspend(slurmdbd_conn_t *slurmdbd_conn, persist_msg_t *msg,
 	memset(&details, 0, sizeof(job_details_t));
 
 	job.assoc_id = job_suspend_msg->assoc_id;
+	job.attempt_id = job_suspend_msg->attempt_id;
 	if (job_suspend_msg->db_index != NO_VAL64)
 		job.db_index = job_suspend_msg->db_index;
 	job.job_id = job_suspend_msg->job_id;
@@ -2394,6 +2396,7 @@ static void _process_job_start(slurmdbd_conn_t *slurmdbd_conn,
 	array_recs.max_run_tasks = job_start_msg->array_max_tasks;
 	array_recs.task_cnt = job_start_msg->array_task_pending;
 	job.assoc_id = job_start_msg->assoc_id;
+	job.attempt_id = job_start_msg->attempt_id;
 	if (job_start_msg->db_index != NO_VAL64)
 		job.db_index = job_start_msg->db_index;
 	details.begin_time = job_start_msg->eligible_time;
@@ -2453,6 +2456,7 @@ static void _process_job_start(slurmdbd_conn_t *slurmdbd_conn,
 	id_rc_msg->job_id = job.job_id;
 	id_rc_msg->flags = job.bit_flags;
 	id_rc_msg->db_index = job.db_index;
+	id_rc_msg->attempt_id = job.attempt_id;
 
 	/* just in case job.wckey was set because we didn't send one */
 	if (!job_start_msg->wckey)
@@ -3232,6 +3236,7 @@ static int _step_complete(slurmdbd_conn_t *slurmdbd_conn, persist_msg_t *msg,
 	memset(&details, 0, sizeof(job_details_t));
 
 	job.assoc_id = step_comp_msg->assoc_id;
+	job.attempt_id = step_comp_msg->attempt_id;
 	if (step_comp_msg->db_index != NO_VAL64)
 		job.db_index = step_comp_msg->db_index;
 	job.end_time = step_comp_msg->end_time;
@@ -3304,6 +3309,7 @@ static int _step_start(slurmdbd_conn_t *slurmdbd_conn, persist_msg_t *msg,
 	memset(&layout, 0, sizeof(slurm_step_layout_t));
 
 	job.assoc_id = step_start_msg->assoc_id;
+	job.attempt_id = step_start_msg->attempt_id;
 	if (step_start_msg->db_index != NO_VAL64)
 		job.db_index = step_start_msg->db_index;
 	step.container = _replace_double_quotes(step_start_msg->container);

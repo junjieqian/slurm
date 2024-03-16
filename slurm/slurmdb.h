@@ -846,6 +846,7 @@ typedef struct {
 				    tasks this record represents.
 				 */
 	uint32_t associd;
+	uint64_t attempt_id; /* Job attempt id */
 	char	*blockid;
 	char    *cluster;
 	char    *constraints;

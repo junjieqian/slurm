@@ -596,6 +596,7 @@ enum {
 	JOB_REQ_ARRAY_MAX,
 	JOB_REQ_ARRAY_TASK_PENDING,
 	JOB_REQ_ARRAY_TASK_STR,
+	JOB_REQ_ATTEMPT_ID,
 	JOB_REQ_ALLOC_NODES,
 	JOB_REQ_ASSOCID,
 	JOB_REQ_ARRAYJOBID,
@@ -3425,6 +3426,7 @@ static buf_t *_pack_archive_jobs(MYSQL_RES *result, char *cluster_name,
 		job.array_taskid = row[JOB_REQ_ARRAYTASKID];
 		job.array_task_pending = row[JOB_REQ_ARRAY_TASK_PENDING];
 		job.array_task_str = row[JOB_REQ_ARRAY_TASK_STR];
+		job.attempt_id = row[JOB_REQ_ATTEMPT_ID];
 		job.script_hash_inx = row[JOB_REQ_SCRIPT_HASH_INX];
 		job.blockid = row[JOB_REQ_BLOCKID];
 		job.constraints = row[JOB_REQ_CONSTRAINTS];
@@ -3491,6 +3493,7 @@ static char *_load_jobs(uint16_t rpc_version, buf_t *buffer,
 		JOB_REQ_ASSOCID,
 		JOB_REQ_ARRAYJOBID,
 		JOB_REQ_ARRAYTASKID,
+		JOB_REQ_ATTEMPT_ID,
 		JOB_REQ_DELETED,
 		JOB_REQ_DERIVED_EC,
 		JOB_REQ_ENV_HASH_INX,

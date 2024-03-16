@@ -1294,6 +1294,7 @@ extern int as_mysql_hourly_rollup(mysql_conn_t *mysql_conn,
 	};
 	char *job_str = NULL;
 	enum {
+		JOB_REQ_ATTEMPT_ID,
 		JOB_REQ_DB_INX,
 //		JOB_REQ_JOBID,
 		JOB_REQ_ASSOCID,

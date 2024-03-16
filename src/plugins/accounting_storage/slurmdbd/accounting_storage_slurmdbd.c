@@ -223,6 +223,8 @@ static int _setup_job_start_msg(dbd_job_start_msg_t *req,
 		req->array_task_pending = job_ptr->array_recs->task_cnt;
 	}
 
+	req->attempt_id    = job_ptr->attempt_id;
+
 	req->db_flags      = job_ptr->db_flags;
 
 	req->db_index      = job_ptr->db_index;
@@ -309,6 +311,8 @@ static int _set_db_inx_for_each(void *x, void *arg)
 			 * again.
 			 */
 			job_ptr->db_index = id_ptr->db_index;
+			// Increment attempt_id
+			job_ptr->attempt_id++;
 			job_state_unset_flag(job_ptr, JOB_UPDATE_DB);
 		}
 		_sending_script_env(id_ptr, job_ptr);
@@ -321,8 +325,10 @@ static int _reset_db_inx_for_each(void *x, void *arg)
 {
 	job_record_t *job_ptr = x;
 
-	if (job_ptr->db_index == NO_VAL64)
+	if (job_ptr->db_index == NO_VAL64) {
 		job_ptr->db_index = 0;
+		job_ptr->attempt_id = 1;
+	}
 
 	return 0;
 }

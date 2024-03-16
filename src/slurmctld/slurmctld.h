@@ -741,6 +741,7 @@ struct job_record {
 	job_array_struct_t *array_recs;	/* job array details,
 					 * only in meta-job record */
 	uint32_t assoc_id;              /* used for accounting plugins */
+	uint64_t attempt_id;        /* used for tracking attempts */
 	slurmdb_assoc_rec_t *assoc_ptr; /* job's assoc record ptr confirm the
 					 * value before use */
 	char *batch_features;		/* features required for batch script */
